@@ -37,3 +37,6 @@ CACHE_TTL_TEAMS = 3600      # 1 hour - teams rarely change
 CACHE_TTL_LEAGUES = 3600    # 1 hour
 CACHE_TTL_DIVISIONS = 3600  # 1 hour
 CACHE_TTL_GAMES = 300       # 5 minutes - games can change during play
+
+# HTTP request timeout (in seconds)
+REQUEST_TIMEOUT = 30.0

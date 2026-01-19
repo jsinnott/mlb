@@ -19,9 +19,8 @@ from datetime import datetime
 from typing import Optional
 import logging
 
-from cachetools import TTLCache, cached
-
-from jsinnott_utils import RestApiRequest
+import requests
+from cachetools import TTLCache
 
 from mlb import constants
 from mlb.models.api import (
@@ -76,9 +75,21 @@ class MlbClient:
         self._games_cache: TTLCache = TTLCache(maxsize=100, ttl=cache_ttl_games)
 
     def _make_request(self, url: str) -> dict:
-        """Make a request to the MLB API."""
-        request = RestApiRequest(url, logger=self.logger)
-        return request.get()
+        """Make a GET request to the MLB API.
+
+        Args:
+            url: The API endpoint URL.
+
+        Returns:
+            Parsed JSON response as a dictionary.
+
+        Raises:
+            requests.HTTPError: If the request fails.
+        """
+        self.logger.debug(f"GET {url}")
+        response = requests.get(url, timeout=constants.REQUEST_TIMEOUT)
+        response.raise_for_status()
+        return response.json()
 
     # Teams
 

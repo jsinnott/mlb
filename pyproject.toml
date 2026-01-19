@@ -11,10 +11,8 @@ dependencies = [
     "pydantic>=2.0",
     "python-dateutil",
     "cachetools",
+    "requests",
 ]
-
-# Note: jsinnott-utils must be installed separately from local path:
-# uv pip install /path/to/python-utils
 
 [project.optional-dependencies]
 dev = [
