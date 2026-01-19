@@ -281,16 +281,18 @@ class MlbClient:
         if cache_key in self._games_cache:
             return self._games_cache[cache_key]
 
-        # API expects full year range, we'll filter after
-        api_start = datetime(start_date.year, 1, 1).strftime(constants.DATE_FORMAT)
-        api_end = datetime(end_date.year, 12, 31).strftime(constants.DATE_FORMAT)
-
-        url = constants.GAMES_URL.format(start_date=api_start, end_date=api_end)
-        data = self._make_request(url)
-        response = ScheduleResponse.model_validate(data)
+        # MLB API doesn't handle multi-year queries well, so query each year separately
+        all_dates = []
+        for year in range(start_date.year, end_date.year + 1):
+            api_start = f"{year}-01-01"
+            api_end = f"{year}-12-31"
+            url = constants.GAMES_URL.format(start_date=api_start, end_date=api_end)
+            data = self._make_request(url)
+            response = ScheduleResponse.model_validate(data)
+            all_dates.extend(response.dates)
 
         games = []
-        for date_entry in response.dates:
+        for date_entry in all_dates:
             for api_game in date_entry.games:
                 # Filter by date range
                 game_date = datetime.strptime(api_game.official_date, constants.DATE_FORMAT)

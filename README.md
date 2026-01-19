@@ -150,6 +150,30 @@ client = MlbClient(
 )
 ```
 
+## Examples
+
+The `examples/` directory contains sample scripts:
+
+**team_schedule.py** - Display recent and upcoming games for a team:
+
+```bash
+python examples/team_schedule.py "San Francisco Giants"
+python examples/team_schedule.py "New York Yankees" --past 5 --future 10
+python examples/team_schedule.py --preseason  # include spring training
+```
+
+Output:
+```
+San Francisco Giants Schedule
+----------------------------------------
+Date   Day    Opponent  Result    Record
+----------------------------------------
+09/26  Fri    COL       W 6-3     81-78
+09/27  Sat    COL       W 4-3     82-78
+09/28  Sun    COL       W 4-0     83-78
+----------------------------------------
+```
+
 ## Documentation
 
 Build the full API documentation:
