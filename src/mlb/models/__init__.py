@@ -5,6 +5,7 @@ from mlb.models.api import (
     TeamsResponse,
     LeaguesResponse,
     DivisionsResponse,
+    GameFeedResponse,
     ApiGame,
     ApiTeam,
     ApiLeague,

@@ -285,3 +285,38 @@ class ScheduleResponse(BaseModel):
     dates: list[ApiScheduleDate]
 
     model_config = {"populate_by_name": True}
+
+
+# Game detail models (from /game/{id}/feed/live endpoint)
+
+class ApiPitcher(BaseModel):
+    """Pitcher information in game decisions."""
+    id: int
+    full_name: str = Field(alias="fullName")
+    link: str
+
+    model_config = {"populate_by_name": True}
+
+
+class ApiDecisions(BaseModel):
+    """Pitching decisions for a completed game."""
+    winner: Optional[ApiPitcher] = None
+    loser: Optional[ApiPitcher] = None
+    save: Optional[ApiPitcher] = None
+
+
+class ApiLiveData(BaseModel):
+    """Live data section of game feed response."""
+    decisions: Optional[ApiDecisions] = None
+
+    model_config = {"populate_by_name": True}
+
+
+class GameFeedResponse(BaseModel):
+    """Response from the game feed API (/game/{id}/feed/live)."""
+    copyright: str
+    game_pk: int = Field(alias="gamePk")
+    link: str
+    live_data: ApiLiveData = Field(alias="liveData")
+
+    model_config = {"populate_by_name": True}

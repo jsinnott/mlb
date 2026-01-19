@@ -28,6 +28,7 @@ from mlb.models.api import (
     TeamsResponse,
     LeaguesResponse,
     DivisionsResponse,
+    GameFeedResponse,
 )
 from mlb.models.domain import Team, Game, League, Division
 
@@ -317,6 +318,33 @@ class MlbClient:
 
         self._games_cache[cache_key] = games
         return games
+
+    def get_game_decisions(self, game_pk: int) -> tuple[Optional[str], Optional[str], Optional[str]]:
+        """Get pitching decisions for a completed game.
+
+        Args:
+            game_pk: The unique game identifier.
+
+        Returns:
+            Tuple of (winning_pitcher, losing_pitcher, save_pitcher).
+            Each value is the pitcher's full name, or None if not available.
+        """
+        url = constants.GAME_FEED_URL.format(game_pk=game_pk)
+        try:
+            data = self._make_request(url)
+            response = GameFeedResponse.model_validate(data)
+
+            decisions = response.live_data.decisions
+            if not decisions:
+                return (None, None, None)
+
+            winner = decisions.winner.full_name if decisions.winner else None
+            loser = decisions.loser.full_name if decisions.loser else None
+            save = decisions.save.full_name if decisions.save else None
+            return (winner, loser, save)
+        except Exception as e:
+            self.logger.debug(f"Failed to get decisions for game {game_pk}: {e}")
+            return (None, None, None)
 
     def clear_cache(self) -> None:
         """Clear all caches. Useful for forcing fresh data."""

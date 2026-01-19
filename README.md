@@ -174,6 +174,21 @@ Date   Day    Opponent  Result    Record
 ----------------------------------------
 ```
 
+**season_summary.py** - Generate CSV of season-to-date results:
+
+```bash
+python examples/season_summary.py "San Francisco Giants" --year 2025
+python examples/season_summary.py "Los Angeles Dodgers" --year 2025 -o dodgers.csv
+```
+
+Output (CSV):
+```
+Date,Day,Location,Opponent,Result,Team Record,Opp Record,Win Pitcher,Lose Pitcher,Save Pitcher,Game Type
+2025-04-01,Tue,Away,HOU,W 3-1,4-1,2-3,Logan Webb,Hayden Wesneski,Ryan Walker,RS
+2025-04-02,Wed,Away,HOU,W 6-3,5-1,2-4,Randy Rodríguez,Framber Valdez,Camilo Doval,RS
+...
+```
+
 ## Documentation
 
 Build the full API documentation:
