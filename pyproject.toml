@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mlb"
+version = "0.1.0"
+description = "A Python library for accessing MLB game and team data"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0",
+    "python-dateutil",
+    "cachetools",
+]
+
+# Note: jsinnott-utils must be installed separately from local path:
+# uv pip install /path/to/python-utils
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
