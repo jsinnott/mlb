@@ -21,6 +21,11 @@ dev = [
     "pytest",
     "pytest-cov",
 ]
+docs = [
+    "sphinx",
+    "sphinx-rtd-theme",
+    "sphinx-autodoc-typehints",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]

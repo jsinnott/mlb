@@ -1,4 +1,19 @@
-"""MLB API client for fetching team, game, and league data."""
+"""MLB API client for fetching team, game, and league data.
+
+This module provides the MlbClient class, which is the main entry point
+for accessing MLB Stats API data. The client handles:
+
+- HTTP requests to the MLB Stats API
+- Response parsing using Pydantic models
+- TTL-based caching to reduce API calls
+- Filtering to MLB-only data (excludes minor leagues)
+
+Example:
+    >>> from mlb import MlbClient
+    >>> client = MlbClient()
+    >>> teams = client.get_teams()
+    >>> giants = client.get_team_by_name("San Francisco Giants")
+"""
 
 from datetime import datetime
 from typing import Optional
@@ -25,7 +40,8 @@ class MlbClient:
     from the MLB Stats API. Results are cached using TTL caches to reduce
     API calls while keeping data reasonably fresh.
 
-    Example:
+    Example::
+
         client = MlbClient()
         giants = client.get_team_by_name("San Francisco Giants")
         games = giants.get_games(

@@ -45,3 +45,7 @@ divisions.json
 # Old implementation (for reference)
 mlb_old.py
 giants-for-diary.py
+
+# Documentation build
+docs/_build/
+docs/_static/
