@@ -84,6 +84,9 @@ games = client.get_games(
     include_preseason=False  # Exclude spring training
 )
 
+# Pitching decisions for a completed game
+winner, loser, save = client.get_game_decisions(game.id)
+
 # Clear cached data
 client.clear_cache()
 ```
