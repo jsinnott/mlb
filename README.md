@@ -119,6 +119,8 @@ game.short_name         # "SF 5 @ LAD 3 F"
 game.is_completed       # True/False
 game.is_in_progress
 game.is_future
+game.home_probable_pitcher  # Pitcher name (None if not announced)
+game.away_probable_pitcher
 ```
 
 **League** - American League or National League
