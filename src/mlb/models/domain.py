@@ -366,6 +366,8 @@ class Game:
         series_description: Description of the series (e.g., "Regular Season").
         series_game_number: Game number within the series.
         games_in_series: Total games in the series.
+        home_probable_pitcher: Name of the home team's probable starting pitcher (if announced).
+        away_probable_pitcher: Name of the away team's probable starting pitcher (if announced).
 
     Example:
         >>> client = MlbClient()
@@ -398,6 +400,8 @@ class Game:
     series_description: str = ""
     series_game_number: int = 1
     games_in_series: int = 1
+    home_probable_pitcher: Optional[str] = None
+    away_probable_pitcher: Optional[str] = None
     _client: Optional["MlbClient"] = field(default=None, repr=False)
     _api_data: Optional[ApiGame] = field(default=None, repr=False)
 
@@ -463,6 +467,10 @@ class Game:
         elif api_game.game_type == constants.GAME_TYPE_POSTSEASON:
             game_type = "POST"
 
+        # Extract probable pitcher names if announced
+        home_pitcher = api_game.teams.home.probable_pitcher
+        away_pitcher = api_game.teams.away.probable_pitcher
+
         game = cls(
             id=api_game.game_pk,
             date=datetime.strptime(api_game.official_date, constants.DATE_FORMAT),
@@ -476,6 +484,8 @@ class Game:
             series_description=api_game.series_description,
             series_game_number=api_game.series_game_number or 1,
             games_in_series=api_game.games_in_series or 1,
+            home_probable_pitcher=home_pitcher.full_name if home_pitcher else None,
+            away_probable_pitcher=away_pitcher.full_name if away_pitcher else None,
             _client=client,
             _api_data=api_game,
         )

@@ -3,7 +3,7 @@
 BASE_URL = "http://statsapi.mlb.com"
 
 # API endpoints
-GAMES_URL = f"{BASE_URL}/api/v1/schedule/games/?sportId=1&startDate={{start_date}}&endDate={{end_date}}"
+GAMES_URL = f"{BASE_URL}/api/v1/schedule/games/?sportId=1&startDate={{start_date}}&endDate={{end_date}}&hydrate=probablePitcher"
 GAME_FEED_URL = f"{BASE_URL}/api/v1.1/game/{{game_pk}}/feed/live"
 TEAMS_URL = f"{BASE_URL}/api/v1/teams?sportId=1"
 TEAM_URL = f"{BASE_URL}/api/v1/teams/{{team_id}}"

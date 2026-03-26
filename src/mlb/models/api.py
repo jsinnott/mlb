@@ -203,6 +203,15 @@ class ApiLeagueRecord(BaseModel):
     pct: str
 
 
+class ApiProbablePitcher(BaseModel):
+    """Probable pitcher for a scheduled game."""
+    id: int
+    full_name: str = Field(alias="fullName")
+    link: str
+
+    model_config = {"populate_by_name": True}
+
+
 class ApiGameTeam(BaseModel):
     """Team data within a game."""
     team: ApiTeamRef
@@ -211,6 +220,7 @@ class ApiGameTeam(BaseModel):
     is_winner: Optional[bool] = Field(default=None, alias="isWinner")
     split_squad: bool = Field(alias="splitSquad")
     series_number: Optional[int] = Field(default=None, alias="seriesNumber")
+    probable_pitcher: Optional[ApiProbablePitcher] = Field(default=None, alias="probablePitcher")
 
     model_config = {"populate_by_name": True}
 
