@@ -9,6 +9,7 @@ TEAMS_URL = f"{BASE_URL}/api/v1/teams?sportId=1"
 TEAM_URL = f"{BASE_URL}/api/v1/teams/{{team_id}}"
 LEAGUES_URL = f"{BASE_URL}/api/v1/leagues"
 DIVISIONS_URL = f"{BASE_URL}/api/v1/divisions"
+PERSON_URL = f"{BASE_URL}/api/v1/people/{{person_id}}?hydrate=stats(group=[pitching],type=[season])"
 
 # MLB league IDs (American League and National League)
 MLB_LEAGUE_IDS = [103, 104]

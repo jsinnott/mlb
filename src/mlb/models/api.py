@@ -330,3 +330,46 @@ class GameFeedResponse(BaseModel):
     live_data: ApiLiveData = Field(alias="liveData")
 
     model_config = {"populate_by_name": True}
+
+
+# Person/stats models (from /people/{id} endpoint)
+
+class ApiPitchingStats(BaseModel):
+    """Season pitching statistics."""
+    wins: int = 0
+    losses: int = 0
+    era: str = "-.--"
+
+    model_config = {"populate_by_name": True}
+
+
+class ApiStatSplit(BaseModel):
+    """A single stat split (e.g., one season)."""
+    season: str
+    stat: ApiPitchingStats
+
+    model_config = {"populate_by_name": True}
+
+
+class ApiStatGroup(BaseModel):
+    """A group of stat splits (e.g., season pitching stats)."""
+    splits: list[ApiStatSplit] = []
+
+    model_config = {"populate_by_name": True}
+
+
+class ApiPerson(BaseModel):
+    """Person data from the people API."""
+    id: int
+    full_name: str = Field(alias="fullName")
+    stats: list[ApiStatGroup] = []
+
+    model_config = {"populate_by_name": True}
+
+
+class PeopleResponse(BaseModel):
+    """Response from the people API."""
+    copyright: str
+    people: list[ApiPerson]
+
+    model_config = {"populate_by_name": True}

@@ -29,6 +29,7 @@ from mlb.models.api import (
     LeaguesResponse,
     DivisionsResponse,
     GameFeedResponse,
+    PeopleResponse,
 )
 from mlb.models.domain import Team, Game, League, Division
 
@@ -345,6 +346,29 @@ class MlbClient:
         except Exception as e:
             self.logger.debug(f"Failed to get decisions for game {game_pk}: {e}")
             return (None, None, None)
+
+    def get_pitcher_season_record(self, person_id: int) -> tuple[int, int]:
+        """Get a pitcher's win-loss record for the current season.
+
+        Args:
+            person_id: The MLB person/player ID.
+
+        Returns:
+            Tuple of (wins, losses). Returns (0, 0) if stats are unavailable.
+        """
+        url = constants.PERSON_URL.format(person_id=person_id)
+        try:
+            data = self._make_request(url)
+            response = PeopleResponse.model_validate(data)
+            if response.people and response.people[0].stats:
+                splits = response.people[0].stats[0].splits
+                if splits:
+                    # Use the most recent season split
+                    stat = splits[-1].stat
+                    return (stat.wins, stat.losses)
+        except Exception as e:
+            self.logger.debug(f"Failed to get pitcher stats for person {person_id}: {e}")
+        return (0, 0)
 
     def clear_cache(self) -> None:
         """Clear all caches. Useful for forcing fresh data."""

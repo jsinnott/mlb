@@ -87,6 +87,9 @@ games = client.get_games(
 # Pitching decisions for a completed game
 winner, loser, save = client.get_game_decisions(game.id)
 
+# Pitcher season record (wins, losses)
+wins, losses = client.get_pitcher_season_record(player_id)
+
 # Clear cached data
 client.clear_cache()
 ```
@@ -119,8 +122,10 @@ game.short_name         # "SF 5 @ LAD 3 F"
 game.is_completed       # True/False
 game.is_in_progress
 game.is_future
-game.home_probable_pitcher  # Pitcher name (None if not announced)
+game.home_probable_pitcher     # Pitcher name (None if not announced)
+game.home_probable_pitcher_id  # Pitcher MLB ID (None if not announced)
 game.away_probable_pitcher
+game.away_probable_pitcher_id
 ```
 
 **League** - American League or National League
