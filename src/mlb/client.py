@@ -296,6 +296,15 @@ class MlbClient:
         games = []
         for date_entry in all_dates:
             for api_game in date_entry.games:
+                # Skip obsolete shadow records: when a game is rescheduled, the
+                # API still lists it under its original date with state=Postponed,
+                # but its officialDate field has been updated to the new date.
+                # The same game then also appears under its new date as the
+                # authoritative record. Skipping entries where the listing date
+                # disagrees with officialDate eliminates these duplicates.
+                if date_entry.date != api_game.official_date:
+                    continue
+
                 # Filter by date range
                 game_date = datetime.strptime(api_game.official_date, constants.DATE_FORMAT)
                 if game_date < start_date or game_date > end_date:
